@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para ti 💗</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to bottom, #ffc0cb, #ff69b4);
+    overflow: hidden;
+    text-align: center;
+    color: #333;
+}
+
+/* PANTALLAS */
+.screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.active {
+    display: flex;
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* BOTONES */
+button {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 25px;
+    background: #ff69b4;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+    background: #ff1493;
+}
+
+/* IMAGEN */
+img {
+    max-width: 260px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+}
+
+/* TEXTO */
+#texto {
+    max-width: 650px;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+/* CORAZÓN LATIENDO */
+.heart-big {
+    font-size: 80px;
+    animation: beat 1s infinite;
+}
+
+@keyframes beat {
+    0% {transform: scale(1);}
+    50% {transform: scale(1.2);}
+    100% {transform: scale(1);}
+}
+
+/* CORAZONES FLOTANDO */
+.heart {
+    position: absolute;
+    animation: float 5s linear infinite;
+}
+
+@keyframes float {
+    0% {transform: translateY(100vh);}
+    100% {transform: translateY(-10vh);}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+<source src="cancion.mp3">
+</audio>
+
+<!-- PANTALLA 1 (INTRO PRO) -->
+<div class="screen active" id="screen1">
+    <div class="heart-big">💗</div>
+    <h1>Para Antuan 💗</h1>
+    <p>Tengo algo muy especial para ti…</p>
+    <button onclick="nextScreen(2)">Ábrelo 💗</button>
+</div>
+
+<!-- PANTALLA 2 -->
+<div class="screen" id="screen2">
+    <img src="foto.jpg">
+    <div id="texto"></div>
+    <button onclick="nextScreen(3)">Siguiente 💗</button>
+</div>
+
+<!-- PANTALLA 3 -->
+<div class="screen" id="screen3">
+    <h2>Haz clic 💗</h2>
+    <p id="razon"></p>
+    <button onclick="mostrarRazon()">Otra 💗</button>
+    <button onclick="nextScreen(4)">Final ✨</button>
+</div>
+
+<!-- PANTALLA 4 FINAL -->
+<div class="screen" id="screen4">
+    <h1>💗 Antuan & Melani 💗</h1>
+    <p>
+        Deseo pasar todos los días de mi vida contigo…<br><br>
+        Te amo muchísimo mi amor 💗
+    </p>
+</div>
+
+<script>
+let textos = `Gracias por llegar en un momento que no esperaba donde lo último que quería realmente era conocer a alguien pero tú, me abriste las puertas del corazón nuevamente y despejaste desconfianzas porque aunque siguen habiendo un poco van desapareciendo cada dia mas, mejoraste muchas cosas de mí y siempre estare eternamente agradecida por eso,  la llegada de tu presencia a mi vida ha sido de las cosas más hermosas que me han llegado a pasar, sino es la más hermosa, y quiero decirte que estaré toda la eternidad en deuda contigo por cada cosa que has hecho por mí. Sólo quiero decirte que gracias por todo lo que me has aportado, por cada cosa que has hecho, por cada día que hemos pasado juntos y por todas las cosas que has esperado pacientemente. 
+Te amo muchísimo mi amor muchísimo muchísimo 💗`;
+
+let i = 0;
+
+function escribir() {
+    if (i < textos.length) {
+        document.getElementById("texto").innerHTML += textos.charAt(i);
+        i++;
+        setTimeout(escribir, 25);
+    }
+}
+
+function nextScreen(n) {
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+    document.getElementById("screen" + n).classList.add("active");
+
+    if (n === 2) {
+        escribir();
+        document.getElementById("music").play();
+    }
+
+    if (n === 4) {
+        corazones();
+    }
+}
+
+let razones = [
+"me siento feliz feliz contigo 💗",
+"me das mucha tranquilidad 💗",
+"me haces ser mejor persona 💗",
+"me haces querer ver la vida mas bonita sólo para poder disfrutarla contigo 💗",
+"haces que cada sueño tenga una nueva ilusión y mucho mejor que la anterior porque sé que la voy a compartir a tu lado 💗",
+"anhelo que llegue el momento de confirme mis logros y seas tú quien está ahí dando un abrazo felicitándome 💗",
+"Aprecio mucho cuando estás ahí sin pedir nada a cambio 💗",
+"amo cuando no paro de reír contigo 💗",
+"Siento una paz en todo mi ser cuando nos estamos viendo los ojos fijamente y sólo no hacemos nada pero es como si entre los dos supiéramos lo que sentimos y nos transmitimos en ese momento 💗",
+"Deseo pasar todos los días de mi vida contigo todos y cada uno 💗"
+];
+
+function mostrarRazon() {
+    let r = razones[Math.floor(Math.random() * razones.length)];
+    document.getElementById("razon").innerText = r;
+}
+
+function corazones() {
+    setInterval(() => {
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💗";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = Math.random() * 20 + 20 + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 5000);
+    }, 300);
+}
+</script>
+
+</body>
+</html>
